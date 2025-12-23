@@ -1,35 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Hero from './components/Hero';
+import RoastForm from './components/RoastForm';
+import RoastCard from './components/RoastCard';
+import Loading from './components/Loading';
+import './index.css';
+
+const API_URL = 'http://localhost:3001/api';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [roastData, setRoastData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleRoast = async (username) => {
+    setIsLoading(true);
+    setError(null);
+    setRoastData(null);
+
+    try {
+      const response = await fetch(`${API_URL}/roast`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate feedback');
+      }
+
+      setRoastData(data);
+    } catch (err) {
+      if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+        setError('Cannot connect to server. Make sure the backend is running on port 3001.');
+      } else {
+        setError(err.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setRoastData(null);
+    setError(null);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <Hero />
+
+      {!roastData && !isLoading && (
+        <RoastForm onSubmit={handleRoast} isLoading={isLoading} />
+      )}
+
+      {isLoading && <Loading />}
+
+      {error && !isLoading && (
+        <div className="error">
+          <div className="error__title">😅 Oops! Something went wrong</div>
+          <div className="error__message">{error}</div>
+          <button className="error__retry" onClick={handleReset}>
+            Try Again
+          </button>
+        </div>
+      )}
+
+      {roastData && (
+        <>
+          <RoastCard data={roastData} />
+          <button className="reset-btn" onClick={handleReset}>
+            🔥 Get Another Feedback
+          </button>
+        </>
+      )}
+
+      <footer className="footer">
+        <p>Made with 🔥 by UncleG</p>
+        <p>AI-generated feedback for reflection.</p>
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;
