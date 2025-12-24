@@ -5,7 +5,8 @@ import RoastCard from './components/RoastCard';
 import Loading from './components/Loading';
 import './index.css';
 
-const API_URL = 'http://localhost:3001/api';
+// Use relative URL in production, localhost in development
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001/api';
 
 function App() {
   const [roastData, setRoastData] = useState(null);
