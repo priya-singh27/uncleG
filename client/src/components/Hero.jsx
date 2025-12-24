@@ -7,12 +7,14 @@ const subtitles = [
     "Reading docs since '99."
 ];
 
-function Hero() {
+function Hero({ compact = false }) {
     const [text, setText] = useState('');
     const [subtitleIndex, setSubtitleIndex] = useState(0);
     const [isTyping, setIsTyping] = useState(true);
 
     useEffect(() => {
+        if (compact) return; // No animation in compact mode
+
         const currentSubtitle = subtitles[subtitleIndex];
 
         if (isTyping) {
@@ -22,7 +24,6 @@ function Hero() {
                 }, 40);
                 return () => clearTimeout(timer);
             } else {
-                // Pause before deleting
                 const timer = setTimeout(() => setIsTyping(false), 3000);
                 return () => clearTimeout(timer);
             }
@@ -33,19 +34,22 @@ function Hero() {
                 }, 20);
                 return () => clearTimeout(timer);
             } else {
-                // Move to next subtitle
                 setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
                 setIsTyping(true);
             }
         }
-    }, [text, isTyping, subtitleIndex]);
+    }, [text, isTyping, subtitleIndex, compact]);
 
     return (
-        <section className="hero">
+        <section className={`hero ${compact ? 'hero--compact' : ''}`}>
             <h1 className="hero__title">Uncle<span className="hero__accent">G</span></h1>
-            <p className="hero__subtitle">
-                {text}<span className="hero__cursor">|</span>
-            </p>
+            {compact ? (
+                <p className="hero__subtitle"></p>
+            ) : (
+                <p className="hero__subtitle">
+                    {text}<span className="hero__cursor">|</span>
+                </p>
+            )}
         </section>
     );
 }

@@ -118,6 +118,10 @@ body::after {
   padding: var(--space-2xl) 0 var(--space-xl);
 }
 
+.hero--compact {
+  padding: var(--space-sm) 0;
+}
+
 .hero__title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(3.5rem, 12vw, 6rem);
@@ -126,6 +130,11 @@ body::after {
   color: var(--text-primary);
   margin-bottom: var(--space-md);
   line-height: 1;
+}
+
+.hero--compact .hero__title {
+  font-size: clamp(1.8rem, 5vw, 2.2rem);
+  margin-bottom: var(--space-xs);
 }
 
 .hero__accent {
@@ -140,7 +149,13 @@ body::after {
   max-width: 320px;
   margin: 0 auto;
   line-height: 1.6;
-  min-height: 3rem;
+  min-height: 2rem;
+}
+
+.hero--compact .hero__subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-height: auto;
 }
 
 .hero__cursor {
@@ -207,6 +222,7 @@ body::after {
 
 .roast-form__submit {
   width: 100%;
+  margin-top: var(--space-md);
   padding: var(--space-md) var(--space-xl);
   font-size: 1rem;
   font-weight: 600;
@@ -301,6 +317,99 @@ body::after {
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
   animation: slideUp 0.4s ease-out;
+  position: relative;
+}
+
+/* Icon Buttons - Top Right */
+.roast-card__icons {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  gap: var(--space-xs);
+  z-index: 10;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Share Dropdown */
+.share-dropdown {
+  position: relative;
+}
+
+.share-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--space-xs);
+  background: #1a1a1a;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.share-menu button {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: background 0.15s ease;
+}
+
+.share-menu button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.share-icon {
+  width: 20px;
+  text-align: center;
+  font-weight: 600;
 }
 
 @keyframes slideUp {
@@ -356,7 +465,47 @@ body::after {
   gap: var(--space-sm);
   padding: var(--space-md) 0;
   border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+/* Contribution Graph */
+.contribution-graph {
+  padding: var(--space-sm) 0;
+  margin-bottom: var(--space-md);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-md);
+}
+
+.contribution-graph__grid {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+
+.contribution-graph__week {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contribution-graph__day {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.contribution-graph__day:hover {
+  outline: 1px solid var(--accent);
+}
+
+/* Graph color variables - using CSS custom properties */
+:root {
+  --graph-empty: rgba(255, 255, 255, 0.05);
+  --graph-low: rgba(249, 115, 22, 0.3);
+  --graph-medium: rgba(249, 115, 22, 0.55);
+  --graph-high: rgba(249, 115, 22, 0.8);
+  --graph-max: #f97316;
 }
 
 .mini-stat {
@@ -559,6 +708,85 @@ body::after {
 .reset-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+/* ===================================
+   Navbar (Roast View)
+   =================================== */
+.app--roast-view {
+  max-width: 700px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) 0;
+  margin-bottom: var(--space-md);
+}
+
+.navbar__logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.navbar__accent {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.navbar__btn {
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navbar__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.navbar__github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.navbar__github:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.main-content {
+  flex: 1;
+}
+
+.footer--minimal {
+  padding: var(--space-md) 0;
 }
 
 /* ===================================

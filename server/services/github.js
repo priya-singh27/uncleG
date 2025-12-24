@@ -132,6 +132,7 @@ export async function fetchGitHubProfile(username) {
             mostActiveDay,
             mostActiveHour: activityPatterns.mostActiveHour,
             contributionsThisYear: contributionData?.contributionsThisYear ?? 0,
+            contributionWeeks: contributionData?.contributionWeeks ?? [],
 
             // Power metrics
             powerLevel: powerLevel.level,
@@ -240,6 +241,11 @@ async function fetchContributionData(username, token) {
         // Find most active day of week
         const mostActiveDay = findMostActiveDay(calendar);
 
+        // Get full year of contributions for the graph
+        const recentWeeks = calendar.weeks.map(week =>
+            week.contributionDays.map(day => day.contributionCount)
+        );
+
         return {
             totalCommits: contributions.totalCommitContributions,
             totalPRs: contributions.totalPullRequestContributions,
@@ -248,7 +254,8 @@ async function fetchContributionData(username, token) {
             totalStars,
             longestStreak,
             currentStreak,
-            mostActiveDay
+            mostActiveDay,
+            contributionWeeks: recentWeeks
         };
     } catch (error) {
         console.warn('GraphQL fetch error:', error.message);

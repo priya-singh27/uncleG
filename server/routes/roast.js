@@ -41,7 +41,8 @@ router.post('/roast', async (req, res) => {
                 mostActiveDay: profile.mostActiveDay,
                 topLanguage: profile.topLanguage,
                 powerLevel: profile.powerLevel,
-                universalRank: profile.universalRank
+                universalRank: profile.universalRank,
+                contributionWeeks: profile.contributionWeeks
             }
         });
 

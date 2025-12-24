@@ -12,26 +12,23 @@ function RoastForm({ onSubmit, isLoading }) {
 
     return (
         <form className="roast-form" onSubmit={handleSubmit}>
-            <div className="roast-form__field">
-                <label className="roast-form__label">GitHub Username</label>
-                <input
-                    type="text"
-                    className="roast-form__input"
-                    placeholder="e.g. torvalds"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    disabled={isLoading}
-                    autoComplete="off"
-                    spellCheck="false"
-                />
-            </div>
-
+            <label className="roast-form__label">
+                GITHUB USERNAME
+            </label>
+            <input
+                type="text"
+                className="roast-form__input"
+                placeholder="e.g. torvalds"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoading}
+            />
             <button
                 type="submit"
                 className="roast-form__submit"
-                disabled={isLoading || !username.trim()}
+                disabled={!username.trim() || isLoading}
             >
-                <span>🔥 Roast This Profile</span>
+                🔥 Roast This Profile
             </button>
         </form>
     );
