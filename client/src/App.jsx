@@ -27,13 +27,13 @@ function App() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate feedback');
+        throw new Error(data.error || 'Failed to generate roast');
       }
 
       setRoastData(data);
     } catch (err) {
       if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
-        setError('Cannot connect to server. Make sure the backend is running on port 3001.');
+        setError('Cannot connect to server. Is the backend running?');
       } else {
         setError(err.message);
       }
@@ -51,7 +51,7 @@ function App() {
     <div className="app">
       <Hero />
 
-      {!roastData && !isLoading && (
+      {!roastData && !isLoading && !error && (
         <RoastForm onSubmit={handleRoast} isLoading={isLoading} />
       )}
 
@@ -59,7 +59,7 @@ function App() {
 
       {error && !isLoading && (
         <div className="error">
-          <div className="error__title">😅 Oops! Something went wrong</div>
+          <div className="error__title">Something went wrong</div>
           <div className="error__message">{error}</div>
           <button className="error__retry" onClick={handleReset}>
             Try Again
@@ -71,14 +71,13 @@ function App() {
         <>
           <RoastCard data={roastData} />
           <button className="reset-btn" onClick={handleReset}>
-            🔥 Get Another Feedback
+            Roast Another
           </button>
         </>
       )}
 
       <footer className="footer">
-        <p>Made with 🔥 by UncleG</p>
-        <p>AI-generated feedback for reflection.</p>
+        <p>AI-generated roasts for entertainment only</p>
       </footer>
     </div>
   );
