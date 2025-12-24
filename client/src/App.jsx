@@ -77,6 +77,14 @@ function App() {
       )}
 
       <footer className="footer">
+        <a
+          href="https://github.com/priya-singh27/uncleG"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="github-link"
+        >
+          ⭐ Star on GitHub
+        </a>
         <p>AI-generated roasts for entertainment only</p>
       </footer>
     </div>
