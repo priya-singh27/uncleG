@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Flame behind G -->
-  <path d="M16 2c-3 5-8 8-8 16 0 6 4 12 8 12s8-6 8-12c0-8-5-11-8-16z" fill="#f97316" opacity="0.4"/>
-  <!-- Bold G -->
-  <text x="16" y="24" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#fff" text-anchor="middle">G</text>
+  <!-- Full flame shape -->
+  <path d="M16 0c-4 6-10 10-10 20 0 7 5 12 10 12s10-5 10-12c0-10-6-14-10-20z" fill="#f97316"/>
+  <!-- G letter - large and centered -->
+  <text x="16" y="25" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#fff" text-anchor="middle">G</text>
 </svg>
