@@ -60,6 +60,9 @@ export async function fetchGitHubProfile(username) {
             events.filter(e => e.type === 'PushEvent')
                 .reduce((sum, e) => sum + (e.payload?.commits?.length || 0), 0);
 
+        // Total contributions = commits + PRs (matching git-wrapped)
+        const totalContributions = contributionData?.contributionsThisYear ?? totalCommits;
+
         const longestStreak = contributionData?.longestStreak ?? activityPatterns.streak;
         const currentStreak = contributionData?.currentStreak ?? activityPatterns.streak;
 
@@ -119,6 +122,7 @@ export async function fetchGitHubProfile(username) {
 
             // Contribution stats (from GraphQL)
             totalCommits,
+            totalContributions,
             recentCommits: totalCommits, // For backward compatibility
             longestStreak,
             currentStreak,

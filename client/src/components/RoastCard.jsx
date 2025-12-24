@@ -67,8 +67,8 @@ function RoastCard({ data }) {
                         <span className="mini-stat__label">Streak</span>
                     </div>
                     <div className="mini-stat">
-                        <span className="mini-stat__value">{profile.totalCommits}</span>
-                        <span className="mini-stat__label">Commits</span>
+                        <span className="mini-stat__value">{profile.totalContributions || profile.totalCommits || 0}</span>
+                        <span className="mini-stat__label">Contributions</span>
                     </div>
                     <div className="mini-stat">
                         <span className="mini-stat__value">{profile.topLanguage}</span>

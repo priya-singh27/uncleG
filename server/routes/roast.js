@@ -36,6 +36,7 @@ router.post('/roast', async (req, res) => {
                 followers: profile.followers,
                 totalStars: profile.totalStars,
                 totalCommits: profile.totalCommits,
+                totalContributions: profile.totalContributions,
                 longestStreak: profile.longestStreak,
                 mostActiveDay: profile.mostActiveDay,
                 topLanguage: profile.topLanguage,
