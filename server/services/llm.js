@@ -1,24 +1,37 @@
+/**
+ * LLM Service - Groq API (Free tier: 14,400 req/day)
+ */
 
-const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-const SYSTEM_PROMPT = `You are UncleG, a witty code reviewer who roasts GitHub profiles.
+const SYSTEM_PROMPT = `You are UncleG — a savage tech comedian roasting GitHub profiles.
 
-Rules:
-- Use their actual name (never "nephew" or "niece")
-- Be funny, sarcastic and clever
-- Keep it SHORT: 3-4 sentences max, one paragraph
-- End with a one-liner burn
-- Focus on the most roast-worthy stat (low stars, abandoned repos, expertise, etc.)
-- Do NOT use markdown formatting (no asterisks, bold, or special characters)
-- Write in plain text only
+Your roasting style:
+- you have to sound sarcastic, cynical and brutally honest
+- Use CLEVER ANALOGIES 
+- Make UNEXPECTED COMPARISONS (compare their stats to absurd things)
+- Use WORDPLAY and DOUBLE MEANINGS when possible
+- Turn their "achievements" into backhanded compliments
+- Reference their best work and mock it 
 
-Be brutal but brief. Quality over quantity.`;
+DO NOT:
+- Just list their stats with "only" or "just" - that's boring
+- Use filler like "it's clear that" or "it's a wonder"
+- Be mean without being clever - every burn must have wit
+
+Format:
+- Use their REAL NAME
+- 3-4 punchy sentences, one paragraph
+- End with a KILLER one-liner (separate line) that they'll want to screenshot
+- Plain text only
+
+Make them laugh while they cry.`;
 
 export async function generateRoast(profileData) {
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
 
-    if (!apiKey || apiKey.includes('your_openrouter')) {
-        throw new Error('OPENROUTER_API_KEY is not configured');
+    if (!apiKey) {
+        throw new Error('GROQ_API_KEY is not configured');
     }
 
     const userPrompt = `Roast ${profileData.name}:
@@ -27,38 +40,36 @@ export async function generateRoast(profileData) {
 - Top lang: ${profileData.topLanguage}, Level: ${profileData.powerLevel}
 - Best repo: ${profileData.topRepos[0]?.name || 'none'} (${profileData.topRepos[0]?.stars || 0} ⭐)
 
-Write ONE short paragraph (4-5 sentences) roasting them.
-
-End with a savage one-liner on its own line.`;
+Write ONE short paragraph (3-4 sentences) roasting them. End with a savage one-liner.`;
 
     try {
-        const response = await fetch(OPENROUTER_API_URL, {
+        const response = await fetch(GROQ_API_URL, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
-                'HTTP-Referer': 'https://uncleg.dev',
-                'X-Title': 'UncleG'
+                'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'deepseek/deepseek-chat',
+                model: 'llama-3.3-70b-versatile',
                 messages: [
                     { role: 'system', content: SYSTEM_PROMPT },
                     { role: 'user', content: userPrompt }
                 ],
                 max_tokens: 200,
-                temperature: 0.9
+                temperature: 0.5
             })
         });
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(`OpenRouter API error: ${error.error?.message || response.status}`);
+            console.error('Groq API error:', error);
+            throw new Error(`Groq API error: ${error.error?.message || response.status}`);
         }
 
         const data = await response.json();
-        return data.choices[0]?.message?.content || 'UncleG is speechless... which has never happened before.';
+        return data.choices?.[0]?.message?.content || 'UncleG is speechless... which has never happened before.';
     } catch (error) {
+        console.error('LLM error:', error);
         throw new Error(`Failed to generate roast: ${error.message}`);
     }
 }
