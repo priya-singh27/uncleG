@@ -4,7 +4,7 @@ const subtitles = [
     "He's seen every hype cycle.",
     "Unimpressed by your PRs.",
     "Your code's harshest critic.",
-    "Reading docs since '99."
+    "Reading docs since 2008."
 ];
 
 function Hero({ compact = false }) {
