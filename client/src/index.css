@@ -870,3 +870,146 @@ body::after {
     font-size: 0.9rem;
   }
 }
+
+/* ===================================
+   Home Layout - Side by Side
+   =================================== */
+.app--home {
+  min-height: 100vh;
+  display: flex;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.home-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.home-layout__examples {
+  flex: 0 0 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl);
+}
+
+.home-layout__main {
+  flex: 0 0 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.05) 0%, rgba(249, 115, 22, 0.02) 100%);
+  padding: var(--space-2xl);
+  position: relative;
+}
+
+.home-layout__main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249, 115, 22, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.home-layout__main .hero,
+.home-layout__main .roast-form,
+.home-layout__main .footer--inline {
+  max-width: 450px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.footer--inline {
+  margin-top: var(--space-xl);
+  text-align: center;
+  padding: 0;
+  background: none;
+}
+
+.footer--inline .github-link {
+  margin-bottom: var(--space-sm);
+}
+
+.footer--inline p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ===================================
+   Example Roasts Carousel
+   =================================== */
+.example-roasts {
+  width: 100%;
+}
+
+.example-roasts__label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.example-roasts__image-container {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.example-roasts__image-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.example-roasts__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+}
+
+.example-roasts__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.example-roasts__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: background 0.3s ease;
+}
+
+.example-roasts__dot.active {
+  background: var(--accent);
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .home-layout {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .home-layout__examples {
+    flex: none;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .home-layout__main {
+    flex: none;
+    width: 100%;
+    max-width: 420px;
+  }
+}
