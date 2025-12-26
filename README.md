@@ -2,7 +2,7 @@
 
 **Your code's harshest critic.** Get roasted based on your GitHub profile.
 
-![UncleG Screenshot](client/public/og-image.jpg)
+![UncleG Featured Roasts](client/public/uncleg-roasts.gif)
 
 ## What is this?
 
