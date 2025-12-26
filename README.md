@@ -2,7 +2,7 @@
 
 **Your code's harshest critic.** Get roasted based on your GitHub profile.
 
-![UncleG Featured Roasts](client/public/uncleg-roasts.gif)
+<img src="client/public/uncleg-roasts.gif" alt="UncleG Featured Roasts" width="500">
 
 ## What is this?
 
